@@ -1,0 +1,23 @@
+[flake8]
+
+# globally ignored violations:
+# E741 ambiguous variable name
+# W291 trailing whitespace
+# W293 blank line contains whitespace
+# E501 line too long
+# W504 line break after binary operator https://stackoverflow.com/questions/57074300/what-is-the-recommended-way-to-break-long-if-statement-w504-line-break-after-b
+
+ignore =
+    E741,
+    W291,
+    W293,
+    E501,
+    W504
+exclude =
+    .git,
+    __pycache__,
+    .pytest_cache,
+    *_pb2_grpc.py,
+    *_pb2.py
+
+max-line-length = 120

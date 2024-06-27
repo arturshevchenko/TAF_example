@@ -1,0 +1,32 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pytest = "*"
+flake8 = "6.1.0"
+requests = "2.31.0"
+faker = "19.6.2"
+pytest-env = "1.0.1"
+allure-pytest = "*"
+jsonpath-rw = "1.4.0"
+pyhamcrest = "2.0.4"
+python-dotenv = "1.0.0"
+pytest-xdist = "3.3.1"
+now = "0.0.6"
+selenium = "4.13.0"
+httpretty = "1.1.4"
+pytest-check = "2.2.2"
+pytest-testrail = "2.9.0"
+webdriver-manager = "*"
+python-dateutil = "2.8.2"
+selene = "==2.0.0rc4"
+curlify = "*"
+curlify2 = "*"
+responses = "0.24.1"
+websockets = "*"
+websocket-client = "*"
+
+[requires]
+python_version = "3.12"

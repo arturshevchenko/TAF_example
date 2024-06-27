@@ -1,0 +1,147 @@
+stages:
+  - testing # tests
+  - history_copy # copy previous test run for history timeline
+  - reports # generate report
+  - notify # publish to slack
+  - deploy # public to gitlab pages
+
+.docker_job: &docker_job
+  timeout: 3h
+  variables:
+    RUNNER_AFTER_SCRIPT_TIMEOUT: 2h
+  stage: testing
+  tags:
+    - web-ci
+  image: python:3.12-slim # image for tests
+  script:
+    - echo WEB_DRIVER=CHROME >> $(pwd)/.env
+    - echo HEADLESS=True >> $(pwd)/.env
+    - echo LOGS=True >> $(pwd)/.env
+    - echo CLEAR_DATA=True >> $(pwd)/.env
+    - echo THROTLING=False >> $(pwd)/.env
+    - pip install pipenv
+    - pipenv install
+  allow_failure: true # in case pipeline fails process run
+  artifacts:
+    when: always
+    paths:
+      - ./allure-results
+
+
+.history_job: &history_job
+  stage: history_copy
+  tags:
+    - web-ci
+  image: storytel/alpine-bash-curl
+  script:
+    - apk add unzip # add unzipgit-g ma
+    - (unzip artifacts.zip ) || true
+    - (chmod -R 777 public) || true # give permissions
+    - (cp -r ./public/history ./allure-results) || true # copy to dir
+  allow_failure: true
+  artifacts:
+    paths:
+      - ./allure-results # save
+    expire_in: 30 days
+
+
+.allure_job: &allure_job
+  stage: reports
+  tags:
+    - web-ci
+  image: frankescobar/allure-docker-service:2.17.2
+  script:
+    - mkdir -p $(pwd)/allure-report
+    - allure generate -c allure-results -o allure-report # from allure-results to allure-report
+  after_script:
+    - echo "JOB_ID=$CI_JOB_ID" >> job.env # for notification job id
+  artifacts:
+    paths:
+      - ./allure-results
+      - ./allure-report
+    reports:
+      dotenv: job.env
+    expire_in: 30 days
+
+pages:
+  stage: deploy
+  script:
+    - mkdir public
+    - mv ./allure-report/* public
+  when: manual
+  allow_failure: true
+  artifacts:
+    paths:
+      - public
+
+
+# develop
+API_develop:
+  <<: *docker_job
+  before_script:
+    - mkdir -p $(pwd)/allure-results
+    - echo $aqa_dev >> $(pwd)/src/configs/envs/aqa_dev.json
+    - echo ENV=aqa_dev >> $(pwd)/.env
+    - echo ENV=aqa_dev >>$(pwd)/allure-results/environment.properties
+  after_script:
+    - pipenv run pytest tests/test_cleaners # clean env
+    - pipenv run pytest tests/test_api -m 'not issue_new' --alluredir=./allure-results # run tests, results goes to --alluredir=
+    - pipenv run pytest tests/test_cleaners # clean env after tests
+  when: manual
+
+API_smoke_develop:
+  <<: *docker_job
+  before_script:
+    - mkdir -p $(pwd)/allure-results
+    - echo $aqa_dev >> $(pwd)/src/configs/envs/aqa_dev.json
+    - echo ENV=aqa_dev >> $(pwd)/.env
+    - echo ENV=aqa_dev >>$(pwd)/allure-results/environment.properties
+  after_script:
+    - pipenv run pytest tests/test_cleaners # clean env
+    - pipenv run pytest tests/test_api -m 'smoke and not issue_new' --alluredir=./allure-results # run tests, results goes to --alluredir=
+    - pipenv run pytest tests/test_cleaners # clean env after tests
+  when: manual
+
+history_develop:
+  <<: *history_job
+  before_script:
+    - 'curl --location --output artifacts.zip --header "PRIVATE-TOKEN: $GITLAB_TOKEN" "https://gitlab.com/api/v4/projects/$CI_PROJECT_ID/jobs/artifacts/develop/download?job=pages"'
+  needs:
+    - job: API_develop
+
+allure_job_develop:
+  <<: *allure_job
+  needs:
+    - job: history_develop
+
+allure_smoke_job_develop:
+  <<: *allure_job
+  needs:
+    - job: API_smoke_develop
+
+
+# stage
+API_staging:
+  <<: *docker_job
+  before_script:
+    - mkdir -p $(pwd)/allure-results
+    - echo $aqa_stg >> $(pwd)/src/configs/envs/aqa_stg.json
+    - echo ENV=aqa_stg >> $(pwd)/.env
+    - echo ENV=aqa_stg >>$(pwd)/allure-results/environment.properties
+  after_script:
+    - pipenv run pytest tests/test_cleaners # clean env
+    - pipenv run pytest tests/test_api -m 'smoke and not issue_new' --alluredir=./allure-results # run tests, results goes to --alluredir=
+    - pipenv run pytest tests/test_cleaners # clean env after tests
+  when: manual
+
+history_staging:
+  <<: *history_job
+  before_script:
+    - 'curl --location --output artifacts.zip --header "PRIVATE-TOKEN: $GITLAB_TOKEN" "https://gitlab.com/api/v4/projects/$CI_PROJECT_ID/jobs/artifacts/master/download?job=pages"'
+  needs:
+    - job: API_staging
+
+allure_job_staging:
+  <<: *allure_job
+  needs:
+    - job: history_staging
