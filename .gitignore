@@ -12,9 +12,6 @@ allure-reports
 allure-report
 allure-results
 
-tests/test_api/plans_test/extracted_folder
-tests/resources/tmp/*
-!tests/resources/tmp/example_order_tmp.csv
 
 # osx artifacts
 .DS_Store
@@ -24,8 +21,4 @@ src/configs/envs/*
 !src/configs/envs/example.json
 testrail_config.cfg
 
-tests/test_demo.py
-tests/test_demo2.py
-
 geckodriver.log
-test.http
