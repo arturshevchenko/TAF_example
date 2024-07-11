@@ -10,22 +10,23 @@ from src.services.services.pets_service import PetsService
 
 @pytest.mark.smoke
 @pytest.mark.positive
-@allure.feature('create pet')
+@allure.feature("create pet")
 @allure.title("create pet positive")
-@pytest.mark.parametrize("pet", [
+@pytest.mark.parametrize(
+    "pet",
+    [
         PetModelFactory.pet_full(),
         PetModelFactory.pet_only_required(),
-])
-def test_create_valid_pet(pet):
+    ],
+)
+def test_create_valid_pet(pet, pet_deleter):
     # send request
-    response = PetsService() \
-        .create_pet(pet=pet)
+    response = PetsService().create_pet(pet=pet)
 
     # check status code and body
     response.should_have(status_code(StatusCode.HTTP_OK_200))
     PetResponseBody(response=response).compare_with(pet)
 
     # delete pet after test
-    PetsService() \
-        .delete_pet(pet_id=response.get_json().get('id')) \
-        .should_have(status_code(StatusCode.HTTP_OK_200))
+    pet_id = response.get_json().get("id")
+    pet_deleter(pet_id)

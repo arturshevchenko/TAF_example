@@ -4,7 +4,6 @@ from src.models.request.base_model import BaseModel
 
 
 class ExampleModel(BaseModel):
-
     def __str__(self):
         return f"example: {self.return_body()}"
 
@@ -15,7 +14,7 @@ class ExampleModel(BaseModel):
         self.req = dict()
 
         if field is not None:
-            self.req['field'] = self._field = field
+            self.req["field"] = self._field = field
 
     @property
     def field(self):

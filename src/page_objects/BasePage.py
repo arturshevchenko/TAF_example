@@ -2,7 +2,7 @@ from selene import Browser
 
 
 class BasePage:
-    body = 'body'
+    body = "body"
 
     def __init__(self, browser: Browser):
         self.browser = browser

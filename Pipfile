@@ -27,6 +27,7 @@ curlify2 = "*"
 responses = "0.24.1"
 websockets = "*"
 websocket-client = "*"
+ruff = "*"
 
 [requires]
 python_version = "3.12"

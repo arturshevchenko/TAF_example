@@ -1,6 +1,4 @@
-from selene import Browser, be
-from selenium.webdriver import ActionChains
-from selenium.webdriver.common import keys
+from selene import Browser
 
 from src.configs.urls import Urls
 from src.page_objects.BasePage import BasePage

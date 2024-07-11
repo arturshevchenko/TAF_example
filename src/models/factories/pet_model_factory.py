@@ -5,17 +5,14 @@ from src.utils.enum_utils import EnumUtils
 
 
 class PetModelFactory:
-
     @staticmethod
     def pet_only_required():
-        return PetModel(
-                name=DataGenerator.string_alphanumeric_of(20)
-        )
+        return PetModel(name=DataGenerator.string_alphanumeric_of(20))
 
     @staticmethod
     def pet_full():
         return PetModel(
-                name=DataGenerator.string_alphanumeric_of(20),
-                status=EnumUtils.get_random_value(PetStatus),
-                photoUrls=[DataGenerator.string_alphanumeric_of(20)]
+            name=DataGenerator.string_alphanumeric_of(20),
+            status=EnumUtils.get_random_value(PetStatus),
+            photoUrls=[DataGenerator.string_alphanumeric_of(20)],
         )

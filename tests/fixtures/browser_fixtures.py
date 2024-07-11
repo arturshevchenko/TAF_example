@@ -9,13 +9,13 @@ from src.page_objects.app import Application
 @pytest.fixture(scope="session")
 def browser():
     browser = Browser(
-            Config(
-                    driver=get_browser(),
-                    base_url=AppConfigs.BASE_URL,
-                    timeout=4,
-                    window_width=1200,
-                    window_height=800,
-            )
+        Config(
+            driver=get_browser(),
+            base_url=AppConfigs.BASE_URL,
+            timeout=4,
+            window_width=1200,
+            window_height=800,
+        )
     )
 
     yield browser

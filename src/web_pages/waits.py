@@ -12,9 +12,9 @@ class Waits:
     def __init__(self, driver):
         self.driver = driver
         self.wait_element = WebDriverWait(
-                driver,
-                AppConfigs.UI_MAX_RESPONSE_TIME,
-                ignored_exceptions=WebDriverException
+            driver,
+            AppConfigs.UI_MAX_RESPONSE_TIME,
+            ignored_exceptions=WebDriverException,
         )
 
     def until_element_presence(self, element, message=None):
@@ -26,7 +26,8 @@ class Waits:
         @return: test_web element
         """
         return self.wait_element.until(
-                expected_conditions.presence_of_element_located(element), message)
+            expected_conditions.presence_of_element_located(element), message
+        )
 
     def until_elements_presence(self, elements, message=None):
         """
@@ -37,7 +38,8 @@ class Waits:
         @return: test_web element
         """
         return self.wait_element.until(
-                expected_conditions.presence_of_all_elements_located(elements), message)
+            expected_conditions.presence_of_all_elements_located(elements), message
+        )
 
     def until_element_dissapears(self, element, message=None):
         """
@@ -48,7 +50,8 @@ class Waits:
         @return: test_web element
         """
         return self.wait_element.until(
-                expected_conditions.invisibility_of_element_located(element), message)
+            expected_conditions.invisibility_of_element_located(element), message
+        )
 
     def until_elements_presence_by_xpath(self, element, message=None):
         """
@@ -60,7 +63,9 @@ class Waits:
         """
         logging.info(f"Looking for xpath: {element}")
         return self.wait_element.until(
-                expected_conditions.presence_of_all_elements_located((By.XPATH, element)), message)
+            expected_conditions.presence_of_all_elements_located((By.XPATH, element)),
+            message,
+        )
 
     def until_element_visible_by_id(self, element, message=None):
         """
@@ -71,7 +76,8 @@ class Waits:
         """
         logging.info(f"Looking for id: {element}")
         return self.wait_element.until(
-                expected_conditions.visibility_of_element_located((By.ID, element)), message)
+            expected_conditions.visibility_of_element_located((By.ID, element)), message
+        )
 
     def until_element_presence_by_xpath(self, element, message=None):
         """
@@ -83,7 +89,9 @@ class Waits:
         """
         logging.info(f"Looking for xpath: {element}")
         return self.wait_element.until(
-                expected_conditions.presence_of_element_located((By.XPATH, element)), message)
+            expected_conditions.presence_of_element_located((By.XPATH, element)),
+            message,
+        )
 
     def until_element_visible_by_class_name(self, element, message=None):
         """
@@ -94,7 +102,9 @@ class Waits:
         """
         logging.info(f"Looking for class_name: {element}")
         return self.wait_element.until(
-                expected_conditions.visibility_of_element_located((By.CLASS_NAME, element)), message)
+            expected_conditions.visibility_of_element_located((By.CLASS_NAME, element)),
+            message,
+        )
 
     def until_element_visible_by_xpath(self, element, message=None):
         """
@@ -105,7 +115,9 @@ class Waits:
         """
         logging.info(f"Looking for xpath: {element}")
         return self.wait_element.until(
-                expected_conditions.visibility_of_element_located((By.XPATH, element)), message)
+            expected_conditions.visibility_of_element_located((By.XPATH, element)),
+            message,
+        )
 
     def until_elements_visible_by_class_name(self, element, message=None):
         """
@@ -117,7 +129,11 @@ class Waits:
         """
         logging.info(f"Looking for class_name: {element}")
         return self.wait_element.until(
-                expected_conditions.presence_of_all_elements_located((By.CLASS_NAME, element)), message)
+            expected_conditions.presence_of_all_elements_located(
+                (By.CLASS_NAME, element)
+            ),
+            message,
+        )
 
     def until_elements_visible_by_xpath(self, element, message=None):
         """
@@ -129,7 +145,9 @@ class Waits:
         """
         logging.info(f"Looking for xpath: {element}")
         return self.wait_element.until(
-                expected_conditions.visibility_of_any_elements_located((By.XPATH, element)), message)
+            expected_conditions.visibility_of_any_elements_located((By.XPATH, element)),
+            message,
+        )
 
     def until_element_not_visible_by_xpath(self, element, message=None):
         """
@@ -140,4 +158,6 @@ class Waits:
         """
         logging.info(f"Looking for xpath: {element}")
         return self.wait_element.until(
-                expected_conditions.invisibility_of_element_located((By.XPATH, element)), message)
+            expected_conditions.invisibility_of_element_located((By.XPATH, element)),
+            message,
+        )

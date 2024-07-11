@@ -6,8 +6,8 @@ import pytest
 from src.configs.config_loader import AppFolders
 
 pytest_plugins = [
-        "tests.fixtures.api_pets_fixtures",
-        "tests.fixtures.browser_fixtures",
+    "tests.fixtures.api_pets_fixtures",
+    "tests.fixtures.browser_fixtures",
 ]
 
 
@@ -17,8 +17,9 @@ class NoColorFormatter(logging.Formatter):
 
         # Remove ANSI escape codes (color codes)
         import re
-        ansi_escape = re.compile(r'\x1B\[[0-?]*[ -/]*[@-~]')
-        message = ansi_escape.sub('', message)
+
+        ansi_escape = re.compile(r"\x1B\[[0-?]*[ -/]*[@-~]")
+        message = ansi_escape.sub("", message)
 
         return message
 
@@ -26,7 +27,7 @@ class NoColorFormatter(logging.Formatter):
 @pytest.fixture(scope="session", autouse=True)
 def configure_logging(request):
     # Create a file handler and set the log format
-    logs_file_name = 'log.txt'
+    logs_file_name = "log.txt"
     logs_file_path = os.path.join(AppFolders.TMP_FILES_PATH, logs_file_name)
     if os.path.exists(logs_file_path):
         os.remove(logs_file_path)

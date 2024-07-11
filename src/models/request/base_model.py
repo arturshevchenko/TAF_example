@@ -2,7 +2,6 @@ import json
 
 
 class BaseModel:
-
     def return_body(self) -> dict:
         return json.loads(self.json_string())
 

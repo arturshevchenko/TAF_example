@@ -23,12 +23,12 @@ class DateHandler:
 
     @staticmethod
     def hhmm_from_date(date: str) -> str:
-        return ':'.join(date.split('T')[1].split(':')[:2])
+        return ":".join(date.split("T")[1].split(":")[:2])
 
     @staticmethod
     def is_valid_date(date_string) -> bool:
         try:
-            datetime.strptime(date_string, '%Y-%m-%dT%H:%M:%SZ')
+            datetime.strptime(date_string, "%Y-%m-%dT%H:%M:%SZ")
             return True
         except ValueError:
             return False
@@ -45,8 +45,14 @@ class DateHandler:
         return self.date
 
     def datetime_now(self):
-        self.date = datetime(self.now.year, self.now.month, self.now.day,
-                             self.now.hour, self.now.minute, self.now.second)
+        self.date = datetime(
+            self.now.year,
+            self.now.month,
+            self.now.day,
+            self.now.hour,
+            self.now.minute,
+            self.now.second,
+        )
         return self
 
     def start_of_today(self):
@@ -54,15 +60,19 @@ class DateHandler:
         return self
 
     def end_of_today(self):
-        self.date = self.start_of_today().as_date() + timedelta(days=1) - timedelta(minutes=10)
+        self.date = (
+            self.start_of_today().as_date() + timedelta(days=1) - timedelta(minutes=10)
+        )
         return self
 
     def shift(self, days=0, hours=0, minutes=0, seconds=0):
-        self.date = self.date \
-                    + timedelta(days=days) \
-                    + timedelta(hours=hours) \
-                    + timedelta(minutes=minutes) \
-                    + timedelta(seconds=seconds)
+        self.date = (
+            self.date
+            + timedelta(days=days)
+            + timedelta(hours=hours)
+            + timedelta(minutes=minutes)
+            + timedelta(seconds=seconds)
+        )
         return self
 
     def yesterday(self):
@@ -74,11 +84,15 @@ class DateHandler:
         return self
 
     def tomorrow_hhmm(self, hour=0, minute=0):
-        self.date = self.start_of_today().shift(days=1, hours=hour, minutes=minute).as_date()
+        self.date = (
+            self.start_of_today().shift(days=1, hours=hour, minutes=minute).as_date()
+        )
         return self
 
     def yesterday_hhmm(self, hour=0, minute=0):
-        self.date = self.start_of_today().shift(days=-1, hours=hour, minutes=minute).as_date()
+        self.date = (
+            self.start_of_today().shift(days=-1, hours=hour, minutes=minute).as_date()
+        )
         return self
 
     def today_hhmm(self, hour, minute=0):

@@ -4,7 +4,6 @@ from src.page_objects.HomePage import HomePage
 
 
 class Application:
-
     def __init__(self, browser: Browser):
         self.browser = browser
 

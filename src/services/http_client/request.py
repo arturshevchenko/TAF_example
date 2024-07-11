@@ -5,7 +5,6 @@ from src.configs.endpoint import Endpoint
 
 
 class Request:
-
     def __init__(self, session=None):
         self._base_url = AppConfigs.BASE_URL + Endpoint.API_VERSION.value
         self._method = None
@@ -22,7 +21,7 @@ class Request:
         if self._session:
             # self._request = self._session
             self._request = requests
-            self.set_headers(**{'Authorization': f'Bearer {self._session}'})
+            self.set_headers(**{"Authorization": f"Bearer {self._session}"})
         else:
             self._request = requests
 
@@ -68,30 +67,22 @@ class Request:
 
     def request_payload(self):
         return {
-                'url': self._base_url + self._path,
-                'json': self._body,
-                'data': self._data,
-                'headers': self._headers,
-                'params': self._query_params,
-                'cookies': self._cookies,
-                'files': self._files
+            "url": self._base_url + self._path,
+            "json": self._body,
+            "data": self._data,
+            "headers": self._headers,
+            "params": self._query_params,
+            "cookies": self._cookies,
+            "files": self._files,
         }
 
     def send(self):
         return self._request.request(
-                self._method,
-                **self.request_payload(),
-                allow_redirects=True
+            self._method, **self.request_payload(), allow_redirects=True
         )
 
     def post(self):
-        return self._request.post(
-                **self.request_payload(),
-                allow_redirects=True
-        )
+        return self._request.post(**self.request_payload(), allow_redirects=True)
 
     def get(self):
-        return self._request.get(
-                **self.request_payload(),
-                allow_redirects=True
-        )
+        return self._request.get(**self.request_payload(), allow_redirects=True)

@@ -14,7 +14,7 @@ class PetModel(BaseDataClass):
     def as_list(self):
         obj_as_list = list()
         for key, value in asdict(self).items():
-            if key == 'id':
+            if key == "id":
                 continue
             else:
                 obj_as_list.append(value)

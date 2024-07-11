@@ -15,6 +15,7 @@ class BasePage:
     """
     BasePage should contain all common site-page functionality
     """
+
     # constructor
     driver: WebDriver
     # additional
@@ -39,10 +40,9 @@ class BasePage:
 
     def is_element_visible(self, element):
         try:
-            WebDriverWait(
-                    self.driver,
-                    AppConfigs.UI_MAX_RESPONSE_TIME
-            ).until(expected_conditions.presence_of_element_located(element))
+            WebDriverWait(self.driver, AppConfigs.UI_MAX_RESPONSE_TIME).until(
+                expected_conditions.presence_of_element_located(element)
+            )
             return True
         finally:
             return False

@@ -6,7 +6,6 @@ from hamcrest import assert_that, equal_to
 
 
 class Condition(object):
-
     def __init__(self):
         pass
 
@@ -16,7 +15,6 @@ class Condition(object):
 
 
 class StatusCodeCondition(Condition):
-
     def match(self, response):
         assert response.status_code == self._status_code, "Wrong Status Code"
 
@@ -32,7 +30,6 @@ status_code: Type[StatusCodeCondition] = StatusCodeCondition
 
 
 class BodyFieldCondition(Condition):
-
     def __init__(self, json_path, matcher=None):
         super().__init__()
         self._json_path = json_path
@@ -60,7 +57,9 @@ class BodyFieldCondition(Condition):
 
     def contains_json(self, json_object):
         jsonpath_expression = jsonpath_rw.parse(self._json_path)
-        matched_values = [match.value for match in jsonpath_expression.find(json_object)]
+        matched_values = [
+            match.value for match in jsonpath_expression.find(json_object)
+        ]
         assert_that(matched_values, self._matcher)
 
     def not_presented(self, response):
@@ -74,7 +73,6 @@ body: Type[BodyFieldCondition] = BodyFieldCondition
 
 
 class ConcreteValueCondition(Condition):
-
     def __init__(self, object_to_assert, matcher):
         super().__init__()
         self._object_to_assert = object_to_assert

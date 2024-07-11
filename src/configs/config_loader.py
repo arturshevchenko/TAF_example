@@ -12,8 +12,8 @@ class AppFolders:
     CUR_DIR_PATH = os.getcwd()
     SRC_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
     TESTS_PATH = os.path.abspath(os.path.join(SRC_PATH, os.pardir, "tests"))
-    FILES_PATH = os.path.join(TESTS_PATH, 'resources/files/')
-    TMP_FILES_PATH = os.path.join(TESTS_PATH, 'resources/tmp/')
+    FILES_PATH = os.path.join(TESTS_PATH, "resources/files/")
+    TMP_FILES_PATH = os.path.join(TESTS_PATH, "resources/tmp/")
 
 
 class AppConfigs:

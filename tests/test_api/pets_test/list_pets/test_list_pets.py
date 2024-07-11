@@ -8,7 +8,7 @@ from src.services.services.pets_service import PetsService
 
 @pytest.mark.smoke
 @pytest.mark.positive
-@allure.feature('get pets')
+@allure.feature("get pets")
 @allure.title("get pets without qury params ")
 def test_get_valid_pets():
     # send request

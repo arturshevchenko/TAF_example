@@ -12,24 +12,20 @@ from src.utils.data_generator import DataGenerator
 
 @pytest.mark.smoke
 @pytest.mark.positive
-@allure.feature('update pet')
+@allure.feature("update pet")
 @allure.title("update pet positive")
-@pytest.mark.parametrize('pet_model', [
-        PetModelFactory.pet_full(),
-        PetModelFactory.pet_only_required()
-])
+@pytest.mark.parametrize(
+    "pet_model", [PetModelFactory.pet_full(), PetModelFactory.pet_only_required()]
+)
 def test_update_valid_pet(pets_factory, pet_model):
     # prepare
     pet = pets_factory(PetModelFactory.pet_full())
 
     pet_model_updated = PetModelFactory.pet_full()
-    pet_model_updated.id = pet.get('id')
+    pet_model_updated.id = pet.get("id")
 
     # send request
-    response = PetsService() \
-        .update_pet(
-            pet=pet_model_updated
-    )
+    response = PetsService().update_pet(pet=pet_model_updated)
 
     # check status code and body
     response.should_have(status_code(StatusCode.HTTP_OK_200))
@@ -38,16 +34,13 @@ def test_update_valid_pet(pets_factory, pet_model):
 
 @pytest.mark.regression
 @pytest.mark.negative
-@allure.feature('update pet')
+@allure.feature("update pet")
 @allure.title("update pet not found")
 def test_update_not_found_id_pet():
     pet_model_new = PetModelFactory.pet_full()
     pet_model_new.id = DataGenerator.random_int(10000000, 99999999)
     # send request
-    response = PetsService() \
-        .update_pet(
-            pet=pet_model_new
-    )
+    response = PetsService().update_pet(pet=pet_model_new)
 
     # check status code and body
     response.should_have(status_code(StatusCode.HTTP_OK_200))
@@ -56,17 +49,14 @@ def test_update_not_found_id_pet():
 
 @pytest.mark.regression
 @pytest.mark.negative
-@allure.feature('update pet')
+@allure.feature("update pet")
 @allure.title("update pet invalid id")
 def test_update_invalid_id_pet():
     pet_model_new = PetModelFactory.pet_full()
     pet_model_new.id = DataGenerator.string_of(5)
 
     # send request
-    response = PetsService() \
-        .update_pet(
-            pet=pet_model_new
-    )
+    response = PetsService().update_pet(pet=pet_model_new)
 
     # check status code and body
     response.should_have(status_code(StatusCode.HTTP_BAD_REQUEST_400))

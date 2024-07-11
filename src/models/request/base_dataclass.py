@@ -2,7 +2,6 @@ import json
 
 
 class BaseDataClass:
-
     def without_nullable(self):
         dict_result = {}
         for key, value in self.__dict__.items():
