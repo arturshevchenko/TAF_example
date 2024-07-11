@@ -17,7 +17,7 @@ allure-results
 .DS_Store
 
 .env
-src/configs/envs/*
+#src/configs/envs/* uncomment for production
 !src/configs/envs/example.json
 testrail_config.cfg
 
